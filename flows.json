@@ -1,0 +1,348 @@
+[
+    {
+        "id": "d0b72fd17b9fe",
+        "label": "new package",
+        "type": "tab"
+    },
+    {
+        "id": "553f41ae0680c",
+        "type": "sensingkit",
+        "z": "d0b72fd17b9fe",
+        "ptype": {
+            "553f41ae0680c": [
+                {
+                    "type": "identifier",
+                    "ordinal": "secondary",
+                    "description": "the mac address and user-provided name can be used to unambiguously identify a user",
+                    "status": "inferred",
+                    "required": [
+                        "payload.address"
+                    ],
+                    "accretion": false
+                }
+            ]
+        },
+        "name": "",
+        "subtype": "bluetooth",
+        "granularity": 49,
+        "x": 159,
+        "y": 297,
+        "wires": [
+            [
+                "17567c8e94bae3"
+            ]
+        ]
+    },
+    {
+        "id": "17567c8e94bae3",
+        "type": "extract",
+        "z": "d0b72fd17b9fe",
+        "ptype": {
+            "17567c8e94bae3": [
+                {
+                    "type": "identifier",
+                    "ordinal": "secondary",
+                    "description": "the mac address and user-provided name can be used to unambiguously identify a user",
+                    "status": "inferred",
+                    "required": [
+                        "payload.553f41ae0680c.payload.address"
+                    ],
+                    "accretion": false
+                },
+                {
+                    "type": "sensitive",
+                    "subtype": "biometric",
+                    "ordinal": "secondary",
+                    "status": "inferable",
+                    "description": "magnetometer data can be used to perform a gait analysis",
+                    "evidence": [
+                        "https://doi.org/10.1089/tmj.2011.0132"
+                    ],
+                    "required": [
+                        "payload.dcecd84e745fa8.payload.x",
+                        "payload.dcecd84e745fa8.payload.y",
+                        "payload.dcecd84e745fa8.payload.z"
+                    ],
+                    "accuracy": 0.5,
+                    "conditions": [
+                        {
+                            "type": "granularity",
+                            "granularity": {
+                                "threshold": 20,
+                                "unit": "Hz"
+                            }
+                        }
+                    ],
+                    "accretion": false
+                },
+                {
+                    "type": "sensitive",
+                    "subtype": "credentials",
+                    "ordinal": "secondary",
+                    "status": "inferable",
+                    "description": "magnetometer data can be used to undertake keystroke logging attacks",
+                    "evidence": [
+                        "https://dl.acm.org/citation.cfm?id=2162095"
+                    ],
+                    "required": [
+                        "payload.dcecd84e745fa8.payload.x",
+                        "payload.dcecd84e745fa8.payload.y",
+                        "payload.dcecd84e745fa8.payload.z"
+                    ],
+                    "conditions": [
+                        {
+                            "type": "granularity",
+                            "accuracy": 0.5,
+                            "granularity": {
+                                "threshold": 30,
+                                "unit": "Hz"
+                            }
+                        }
+                    ],
+                    "accretion": false
+                },
+                {
+                    "type": "sensitive",
+                    "subtype": "location",
+                    "ordinal": "secondary",
+                    "status": "inferable",
+                    "description": "magnetometer data can be used to infer a user's location",
+                    "evidence": [
+                        "https://dl.acm.org/citation.cfm?id=2162095"
+                    ],
+                    "required": [
+                        "payload.dcecd84e745fa8.payload.x",
+                        "payload.dcecd84e745fa8.payload.y",
+                        "payload.dcecd84e745fa8.payload.z"
+                    ],
+                    "conditions": [
+                        {
+                            "type": "granularity",
+                            "accuracy": 0.8,
+                            "granularity": {
+                                "threshold": 20,
+                                "unit": "Hz"
+                            }
+                        }
+                    ],
+                    "accretion": false
+                }
+            ]
+        },
+        "name": "",
+        "filters": [
+            {
+                "sid": "553f41ae0680c",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "string",
+                    "description": "user assigned name of the device, `none' if not provided",
+                    "name": "name"
+                },
+                "path": [
+                    "payload",
+                    "name"
+                ]
+            },
+            {
+                "sid": "553f41ae0680c",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "string",
+                    "description": "the mac address of the device in the form aa:bb:cc:dd:ee:ff",
+                    "name": "address"
+                },
+                "path": [
+                    "payload",
+                    "address"
+                ]
+            },
+            {
+                "sid": "dcecd84e745fa8",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "number",
+                    "description": "the x axis value, vigorous shaking will range from (-38 to 38)",
+                    "minimum": -38,
+                    "maximum": 38,
+                    "name": "x"
+                },
+                "path": [
+                    "payload",
+                    "x"
+                ]
+            },
+            {
+                "sid": "dcecd84e745fa8",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "number",
+                    "description": "the z axis value, vigorous shaking will range from (-38 to 38)",
+                    "minimum": -38,
+                    "maximum": 38,
+                    "name": "z"
+                },
+                "path": [
+                    "payload",
+                    "z"
+                ]
+            },
+            {
+                "sid": "dcecd84e745fa8",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "number",
+                    "description": "the y axis value, vigorous shaking will range from (-38 to 38)",
+                    "minimum": -38,
+                    "maximum": 38,
+                    "name": "y"
+                },
+                "path": [
+                    "payload",
+                    "y"
+                ]
+            },
+            {
+                "sid": "dcecd84e745fa8",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "number",
+                    "description": "a unix timestamp",
+                    "name": "ts"
+                },
+                "path": [
+                    "payload",
+                    "ts"
+                ]
+            },
+            {
+                "sid": "553f41ae0680c",
+                "stype": "sensingkit",
+                "item": {
+                    "type": "number",
+                    "description": "received signal strength indicator (a measure of the signal strength measured by the scanning device)",
+                    "name": "rssi"
+                },
+                "path": [
+                    "payload",
+                    "rssi"
+                ]
+            }
+        ],
+        "x": 367,
+        "y": 400,
+        "wires": [
+            [
+                "ec927f5e0a341"
+            ]
+        ]
+    },
+    {
+        "id": "ec927f5e0a341",
+        "type": "export",
+        "z": "d0b72fd17b9fe",
+        "name": "",
+        "urls": "",
+        "payload": {},
+        "x": 595,
+        "y": 395,
+        "wires": []
+    },
+    {
+        "id": "dcecd84e745fa8",
+        "type": "sensingkit",
+        "z": "d0b72fd17b9fe",
+        "ptype": {
+            "dcecd84e745fa8": [
+                {
+                    "type": "sensitive",
+                    "subtype": "biometric",
+                    "ordinal": "secondary",
+                    "status": "inferable",
+                    "description": "magnetometer data can be used to perform a gait analysis",
+                    "evidence": [
+                        "https://doi.org/10.1089/tmj.2011.0132"
+                    ],
+                    "required": [
+                        "payload.x",
+                        "payload.y",
+                        "payload.z"
+                    ],
+                    "accuracy": 0.5,
+                    "conditions": [
+                        {
+                            "type": "granularity",
+                            "granularity": {
+                                "threshold": 20,
+                                "unit": "Hz"
+                            }
+                        }
+                    ],
+                    "accretion": false
+                },
+                {
+                    "type": "sensitive",
+                    "subtype": "credentials",
+                    "ordinal": "secondary",
+                    "status": "inferable",
+                    "description": "magnetometer data can be used to undertake keystroke logging attacks",
+                    "evidence": [
+                        "https://dl.acm.org/citation.cfm?id=2162095"
+                    ],
+                    "required": [
+                        "payload.x",
+                        "payload.y",
+                        "payload.z"
+                    ],
+                    "conditions": [
+                        {
+                            "type": "granularity",
+                            "accuracy": 0.5,
+                            "granularity": {
+                                "threshold": 30,
+                                "unit": "Hz"
+                            }
+                        }
+                    ],
+                    "accretion": false
+                },
+                {
+                    "type": "sensitive",
+                    "subtype": "location",
+                    "ordinal": "secondary",
+                    "status": "inferable",
+                    "description": "magnetometer data can be used to infer a user's location",
+                    "evidence": [
+                        "https://dl.acm.org/citation.cfm?id=2162095"
+                    ],
+                    "required": [
+                        "payload.x",
+                        "payload.y",
+                        "payload.z"
+                    ],
+                    "conditions": [
+                        {
+                            "type": "granularity",
+                            "accuracy": 0.8,
+                            "granularity": {
+                                "threshold": 20,
+                                "unit": "Hz"
+                            }
+                        }
+                    ],
+                    "accretion": false
+                }
+            ]
+        },
+        "name": "",
+        "subtype": "magnetometer",
+        "granularity": 158,
+        "x": 173.5,
+        "y": 497,
+        "wires": [
+            [
+                "17567c8e94bae3"
+            ]
+        ]
+    }
+]
